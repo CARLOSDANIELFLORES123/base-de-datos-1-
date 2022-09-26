@@ -1,0 +1,119 @@
+create database Universidad
+use Universidad
+
+create table mateia(
+	Id_materia integer identity primary key,
+	Nombre_materia varchar (100) not null,
+	Cod_materia varchar (100) not null
+);
+
+create table escuela(
+	Id_esc integer identity primary key not null,
+	Nombre varchar (100) not null,
+	Direccion varchar (100) not null
+);
+
+create table periodo(
+	Id_per integer identity primary key not null,
+	Ano_gestion integer not null,
+	Semestre varchar (100) not null
+);
+
+create table estudiantes(
+	Id_est_cedula integer identity primary key not null,
+	Nombres varchar (100) not null,
+	Apellidos varchar (100) not null,
+	Genero varchar (100) not null,
+	Direccion varchar (100) not null,
+	Telefono integer not null,
+	Email varchar (100) not null,
+	Edad integer not null,
+	Id_esc integer not null
+	foreign key (Id_esc) references escuela (Id_esc) 
+);
+
+create table kardex(
+	Id_kar integer identity primary key not null,
+	Nota_num integer not null,
+	Nota_alfabe varchar (100) not null,
+	estado varchar (100) not null,
+	Id_materia integer not null,
+	Id_est_cedula integer not null,
+	Id_per integer not null,
+	foreign key (Id_materia) references mateia (Id_materia),
+	foreign key (Id_est_cedula) references estudiantes (Id_est_cedula),
+	foreign key (Id_per) references periodo (Id_per),
+);
+
+INSERT INTO escuela (Nombre, Direccion) 
+VALUES ('San Felipe Asturias II', 'Zona Illampu Av. Prol. San Lorenzo');
+
+INSERT INTO estudiantes (Nombres, Apellidos, Genero, Direccion, Telefono, Email, Edad, Id_esc) 
+VALUES('Augusto', 'Copar Copar', 'femenino', 'Av. 6 de Agosto', 79617579, 'augusto@gmail.com', 20, 1);
+INSERT INTO estudiantes (Nombres, Apellidos, Genero, Direccion, Telefono, Email, Edad, Id_esc)
+VALUES('Saul', 'Montes Valenzuela', 'masculino', 'Av. 6 de Agosto', 79617576, 'saul@gmail.com', 24, 1);
+INSERT INTO estudiantes (Nombres, Apellidos, Genero, Direccion, Telefono, Email, Edad, Id_esc)
+VALUES('Ximena', 'Arias Ballesteros', 'femenino', 'Av. 6 de Agosto', 79617575, 'xime@gmail.com', 25, 1);
+INSERT INTO estudiantes (Nombres, Apellidos, Genero, Direccion, Telefono, Email, Edad, Id_esc)
+VALUES('Carla', 'Mavir Uria', 'femenino', 'Av. 6 de Agosto', 79617577, 'carla@gmail.com', 28, 1);
+INSERT INTO estudiantes (Nombres, Apellidos, Genero, Direccion, Telefono, Email, Edad, Id_esc)
+VALUES('Joel', 'Castillo Fuentes', 'masculino', 'Av. 6 de Agosto', 79617578, 'joel@gmail.com', 21, 1);
+
+INSERT INTO mateia (Nombre_materia, Cod_materia) 
+VALUES ('Introduccion a la Arquitectura','ARQ-101');
+INSERT INTO mateia (Nombre_materia, Cod_materia) VALUES ('Urbanismo y Diseno','ARQ-102');
+INSERT INTO mateia (Nombre_materia, Cod_materia) 
+VALUES ('Dibujo y Pintura Arquitectonico','ARQ-103');
+INSERT INTO mateia (Nombre_materia, Cod_materia) 
+VALUES ('Matematica discreta','ARQ-104');
+INSERT INTO mateia (Nombre_materia, Cod_materia) 
+VALUES ('Fisica Basica','ARQ-105');
+
+INSERT INTO periodo (Ano_gestion, Semestre) 
+VALUES (2016, 'Semestre 1');
+INSERT INTO periodo (Ano_gestion, Semestre) 
+VALUES (2016, 'Semestre 2');
+INSERT INTO periodo (Ano_gestion, Semestre) 
+VALUES (2017, 'Semestre 1');
+INSERT INTO periodo (Ano_gestion, Semestre) 
+VALUES (2017, 'Semestre 2');
+INSERT INTO periodo (Ano_gestion, Semestre) 
+VALUES (2018, 'Semestre 1');
+
+insert into kardex(Nota_num,Nota_alfabe,estado,Id_materia,Id_est_cedula,Id_per)
+values(51,'cincuenta y uno','aprobado',1,1,1);
+insert into kardex(Nota_num,Nota_alfabe,estado,Id_materia,Id_est_cedula,Id_per)
+values(31,'trenta y uno','aprobado',2,2,2);
+insert into kardex(Nota_num,Nota_alfabe,estado,Id_materia,Id_est_cedula,Id_per)
+values(61,'sesenta y uno','aprobado',1,3,1);
+insert into kardex(Nota_num,Nota_alfabe,estado,Id_materia,Id_est_cedula,Id_per)
+values(41,'cuarenta y uno','reprobado',2,4,2);
+insert into kardex(Nota_num,Nota_alfabe,estado,Id_materia,Id_est_cedula,Id_per)
+values(81,'ochenta y uno','aprobado',4,4,4);
+
+select *
+from kardex;
+
+select *
+from estudiantes;
+
+select *
+from escuela;
+
+select *
+from mateia;
+
+select *
+from periodo;
+
+
+SELECT est.Nombres, est.Apellidos, est.Edad
+FROM kardex AS kar, estudiantes AS est
+WHERE kar.Id_est_cedula = est.Id_est_cedula AND
+      kar.Nota_num <= 51 and est.Genero='masculino';
+
+
+SELECT est.Nombres , est.Apellidos, est.Edad
+FROM estudiantes as est
+   inner join kardex as kar on kar.Id_est_cedula = est.Id_est_cedula 
+   where kar.Nota_num <=51;
