@@ -1,0 +1,123 @@
+CREATE DATABASE Letras1;
+USE Letras1;
+
+CREATE TABLE TABLE_A 
+(     
+      Letras_A varchar (10) primary key NOT NULL,
+      Numeros_A integer NOT NULL,
+);
+CREATE TABLE TABLE_B
+(    
+     Letras_B varchar (10) primary key NOT NULL,
+	 Numeros_B integer NOT NULL,
+);
+
+INSERT INTO TABLE_A (Letras_A)
+VALUES ('D');
+INSERT INTO TABLE_A (Letras_A)
+VALUES ('E');
+ INSERT INTO TABLE_A (Letras_A)
+VALUES ('F');
+ INSERT INTO TABLE_A (Letras_A)
+VALUES ('G');
+ INSERT INTO TABLE_A (Letras_A)
+VALUES ('H');
+
+SELECT ta.* FROM TABLE_A AS ta;
+  
+INSERT INTO TABLE_B (Letras_B)
+VALUES ('A');
+INSERT INTO TABLE_B (Letras_B)
+VALUES ('E');
+ INSERT INTO TABLE_B (Letras_B)
+VALUES ('B');
+ INSERT INTO TABLE_B (Letras_B)
+VALUES ('H');
+
+SELECT tb.* FROM TABLE_B AS tb;
+
+SELECT ta.Letras_A, tb.Letras_B
+FROM TABLE_A AS ta
+     INNER JOIN TABLE_B AS tb ON ta.Letras_A = tb.Letras_B;
+
+CREATE TABLE TABLE_A1 
+(     
+     
+      Numeros_A integer NOT NULL,
+);
+CREATE TABLE TABLE_B1
+(    
+ 
+	 Numeros_B integer NOT NULL,
+);
+INSERT INTO TABLE_A1 (Numeros_A)
+VALUES (1);
+INSERT INTO TABLE_A1 (Numeros_A)
+VALUES (3);
+ INSERT INTO TABLE_A1 (Numeros_A)
+VALUES (2);
+ INSERT INTO TABLE_A1 (Numeros_A)
+VALUES (4);
+ INSERT INTO TABLE_A1 (Numeros_A)
+VALUES (5);
+INSERT INTO TABLE_A1 (Numeros_A)
+VALUES (6);
+INSERT INTO TABLE_A1 (Numeros_A)
+VALUES (7);
+
+SELECT ta.* FROM TABLE_A1 AS ta;
+
+INSERT INTO TABLE_B1 (Numeros_B)
+VALUES (4);
+INSERT INTO TABLE_B1 (Numeros_B)
+VALUES (5);
+INSERT INTO TABLE_B1 (Numeros_B)
+VALUES (6);
+INSERT INTO TABLE_B1 (Numeros_B)
+VALUES (7);
+INSERT INTO TABLE_B1 (Numeros_B)
+VALUES (8);
+INSERT INTO TABLE_B1 (Numeros_B)
+VALUES (9);
+
+SELECT tb.* FROM TABLE_B1 AS tb;
+
+SELECT ta.Numeros_A, tb.Numeros_B
+FROM TABLE_A1 AS ta
+     INNER JOIN TABLE_B1 AS tb ON ta.Numeros_A = tb.Numeros_B
+
+	 where ta.Numeros_A > 5 and tb.Numeros_B > 5 
+
+
+CREATE TABLE TABLE_A2 
+(     
+     
+      Notas_P1 integer primary key ,
+);
+CREATE TABLE TABLE_B2
+(    
+ 
+	 Notas_P2 integer primary key ,
+);
+CREATE TABLE TABLE_C2
+(    
+ 
+	 Notas_P3 integer  primary key ,
+);
+INSERT INTO TABLE_A2 (Notas_P1)
+VALUES (51),(40),(60),(75),(30);
+
+INSERT INTO TABLE_B2 (Notas_P2)
+VALUES (60),(51),(100);
+
+INSERT INTO TABLE_C2 (Notas_P3)
+VALUES (20),(21),(23),(48),(51),(60);
+
+
+SELECT  ta.Notas_P1, tb.Notas_P2, tc.Notas_P3
+FROM TABLE_A2 AS ta
+     INNER JOIN TABLE_B2 AS tb ON ta.Notas_P1 = tb.Notas_P2
+	 INNER JOIN TABLE_C2 AS tc ON ta.Notas_P1 = tc.Notas_P3;
+
+
+	 --QUE ESTUDIANTES(NOMBRES,APELLIDOS Y LA DIRECCION) FORMAN PARTE DE LA ESCUELA 'San Felipe Asturias 2'.
