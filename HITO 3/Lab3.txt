@@ -1,0 +1,23 @@
+create database universisdad3
+
+use universisdad3
+
+create table nombres_dba_1(
+	SIS_EST varchar(10) primary key not null,
+	Nombre varchar (15) not null
+)
+
+create table nombres_dba_2(
+	SIS_EST varchar(30) primary key not null,
+	Nombre varchar (30) not null
+)
+
+
+insert into nombres_dba_1(SIS_EST,Nombre)
+values('SIS987654','Wiliam'),('SIS789456','Victor'),('SIS7845656','Mijail'),('SIS774456','Karen'),('SIS736456','Brayan'),('SIS789646','Ariel')
+
+insert into nombres_dba_2(SIS_EST,Nombre)
+values('SIS989854','Victor'),('SIS789416','Brayan'),('SIS7345656','Samuel'),('SIS779156','Ana')
+
+select nom1.Nombre,nom2.Nombre
+from nombres_dba_1 as nom1 inner join nombres_dba_2 as nom2 on nom1.Nombre = nom2.Nombre
