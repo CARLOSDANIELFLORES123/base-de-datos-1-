@@ -1,0 +1,140 @@
+CREATE DATABASE hito4_funciones;
+
+USE hito4_funciones;
+
+
+--Manejo de funciones
+--Una funcion de agregacion siempre se ejecuta
+
+--En la clausula SELECT
+--Ademas siempre retornaun unico valor (Una fila)
+--Es aplicado a un grupo de registros (A una columna de la tabla)
+--AVG utlilizada para calcular el promedio de los valores de un campo determinado
+--COUNT utilizada para devolver el numero de registros de la seleccion 
+--SUM ultilizada para devolver la suma de todos los valores de un campodeterminado
+--MAX utilizada para devolver el valor mas alto de un camp determinado
+--MIN utilizada pára delvover el menor de un campo especificado
+drop table estudiantes;
+Create table estudiantes
+( 
+    id_est INTEGER IDENTITY PRIMARY KEY NOT NULL,
+	nombres VARCHAR (30) NOT NULL,
+	apellidos VARCHAR (30) NOT NULL,
+	edad INTEGER NOT NULL,
+	fono INTEGER NOT NULL,
+	email VARCHAR(30) NOT NULL,
+	direccion VARCHAR (100) NOT NULL,
+	genero VARCHAR (45)NOT NULL,
+);
+
+
+INSERT INTO estudiantes (nombres, apellidos, edad, fono, email, direccion, genero)
+  VALUES ('Miguel' ,'Gonzales Veliz', 20, 2832115, 'miguel@gmail.com', 'Av. 6 de Agosto', 'masculino');
+INSERT INTO estudiantes (nombres, apellidos, edad, fono, email, direccion, genero)
+  VALUES ('Sandra' ,'Mavir Uria', 25, 2832116, 'sandra@gmail.com', 'Av. 6 de Agosto', 'femenino');
+INSERT INTO estudiantes (nombres, apellidos, edad, fono, email, direccion, genero)
+  VALUES ('Joel' ,'Adubiri Mondar', 30, 2832117, 'joel@gmail.com', 'Av. 6 de Agosto', 'masculino');
+INSERT INTO estudiantes (nombres, apellidos, edad, fono, email, direccion, genero)
+  VALUES ('Andrea' ,'Arias Ballesteros', 21, 2832118, 'andrea@gmail.com', 'Av. 6 de Agosto', 'femenino');
+INSERT INTO estudiantes (nombres, apellidos, edad, fono, email, direccion, genero)
+  VALUES ('Santos' ,'Montes Valenzuela', 24, 2832119, 'santos@gmail.com', 'Av. 6 de Agosto', 'masculino');
+
+
+  --Agrupar por id_est y mostrar el promedio del id_mat en la tabla inscripcion. 
+SELECT ins.id_est, AVG(ins.id_mat)
+FROM inscripcion AS ins
+GROUP BY ins.id_est;
+
+
+  SELECT*
+  FROM estudiantes AS est;
+  --determinara cuantos estudiantes registrados hay 
+
+  select count(*)
+  from estudiantes as est;
+  
+  SELECT COUNT(est.id_est)
+  FROM estudiantes AS est;
+  
+  --detreminar la cantidad minima de estudiantes 
+SELECT min(est.edad)
+FROM estudiantes AS est;
+--determinar la maxima cantidad de estudiantes 
+SELECT max(est.edad)
+FROM estudiantes AS est;
+
+--determinar la cantidad de estudiantes de sexo femenino
+
+select count (est.id_est)
+from estudiantes AS est
+where est.genero = 'femenino'; 
+
+--Mostrar el promedio de edad en la tabla estudiantes.
+SELECT avg(est.edad)
+FROM estudiantes AS est;
+
+
+SELECT max(est.edad)
+FROM estudiantes AS est;
+
+
+ALTER TABLE estudiantes ADD licencia_conducir BIT;
+
+INSERT INTO estudiantes (nombres, apellidos, edad, fono, email, direccion, genero,licencia_conducir)
+  VALUES ('Marcos' ,'Mamani Vargas', 20, 28321129, 'marcos@gmail.com', 'Av. 6 de Agosto', 'masculino',7);
+
+  INSERT INTO estudiantes (nombres, apellidos, edad, fono, email, direccion, genero,licencia_conducir)
+  VALUES ('Juan' ,'Alacon Motez', 20, 2832117, 'juan@gmail.com', 'Av. 6 de Agosto', 'masculino',9);
+
+  SELECT est.*
+  FROM estudiantes AS est;
+
+  SELECT avg(est.edad)
+FROM estudiantes AS est;
+
+SELECT max(est.edad)
+FROM estudiantes AS est
+where est.genero = 'femenino' or est.genero = 'masculino';
+
+SELECT COUNT (est.id_est)
+FROM estudiantes AS est 
+WHERE est.apellidos like '%el%' and est.genero = 'masculino';
+
+select count (est.id_est)
+from estudiantes as est
+where est.edad > 20 and est.edad < 30 and est.licencia_conducir = 1 ;
+
+
+SELECT  count (est.id_est)
+FROM estudiantes as est
+WHERE est.licencia_conducir BETWEEN 21 AND 29;
+
+--AGREGAR LA TABLA LABLA ESCUELA 
+CREATE TABLE escuela
+(
+   id_esc INTEGER IDENTITY PRIMARY KEY  NOT NULL,
+   nombre VARCHAR(30),
+   direccion VARCHAR (30),
+   turno VARCHAR (30)
+);
+
+drop table escuela;
+
+Create table estudiantes
+( 
+    id_est INTEGER IDENTITY PRIMARY KEY NOT NULL,
+	nombres VARCHAR (30) NOT NULL,
+	apellidos VARCHAR (30) NOT NULL,
+	edad INTEGER NOT NULL,
+	fono INTEGER NOT NULL,
+	email VARCHAR(30) NOT NULL,
+	direccion VARCHAR (100) NOT NULL,
+	genero VARCHAR (45)NOT NULL,
+	id.esc INTEGER IDENTITY NOT NULL,
+	FOREIGN KEY (id.esc) REFERENCES escuela (id.esc) NOT NULL
+);
+
+
+
+SELECT*
+FROM escuela;
