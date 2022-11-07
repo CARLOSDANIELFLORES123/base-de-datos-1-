@@ -1,0 +1,135 @@
+create database funcioneshito4
+use funcioneshito4 
+
+CREATE TABLE escuela
+(
+   id_esc INTEGER IDENTITY PRIMARY KEY  NOT NULL,
+   nombre VARCHAR(30),
+   direccion VARCHAR (30),
+   turno VARCHAR (30)
+);
+
+create table estudiantes 
+(
+id_est integer identity primary key not null,
+nombres varchar (20) not null,
+apellidos varchar (20)not null,
+edad integer not null ,
+fono integer not null,
+email varchar (100) not null ,
+direccion varchar (200) not null , 
+genero varchar (50)not null,
+id_esc integer not null,
+licencia_conducir bit not null , 
+foreign key (id_esc) references escuela (id_esc)
+);
+
+insert into escuela (nombre, direccion, turno) values 
+ ('San Simon','Cochabamba','manana'),
+ ('Andres Bello','El Alto ','manana-tarde'),
+ ('Amor de Dios Fe y Alegria ','El Alto ','manana-tarde'),
+ ('Don Bosco','La Paz ','manana-tarde-noche ')
+
+
+ INSERT INTO estudiantes (nombres, apellidos, edad, fono, email, direccion, genero,licencia_conducir,id_esc) values
+  ('Miguel' ,'Gonzales Veliz', 20, 2832115, 'miguel@gmail.com', 'Av. 6 de Agosto', 'masculino',0,1),
+  ('Sandra' ,'Mavir Uria', 25, 2832116, 'sandra@gmail.com', 'Av. 6 de Agosto', 'femenino',0,2),
+  ('Joel' ,'Adubiri Mondar', 30, 2832117, 'joel@gmail.com', 'Av. 6 de Agosto', 'masculino',0,3),
+  ('Andrea' ,'Arias Ballesteros', 21, 2832118, 'andrea@gmail.com', 'Av. 6 de Agosto', 'femenino',0,4),
+  ('Santos' ,'Montes Valenzuela', 24, 2832119, 'santos@gmail.com', 'Av. 6 de Agosto', 'masculino',0,1),
+  ('Ana' ,'Gonzales Veliz', 20, 2832115, 'ana@gmail.com', 'Av. 6 de Agosto', 'femenino',1,2),
+  ('Pepito' ,'Gonzales Veliz', 20, 2832115, 'pepito@gmail.com', 'Av. 6 de Agosto', 'masculino',0,3)
+
+ 
+ select *
+ from escuela
+
+ select *
+ from estudiantes
+
+
+ select est.nombres
+ from estudiantes as est
+ where est.licencia_conducir = 1
+
+
+ select count (*)
+ from estudiantes as est
+ where est.licencia_conducir = 0 and est.edad<20
+
+
+ select count(*)
+ from estudiantes as est inner join escuela as esc on esc.id_esc = est.id_esc
+ where esc.nombre = 'Amor de DIos Fe y Alegria'
+
+ select count(*)
+ from estudiantes as est inner join escuela as esc on esc.id_esc = est.id_esc
+ where esc.turno = 'manana-tarde'
+
+ select count(*)
+ from estudiantes as est inner join escuela as esc on esc.id_esc = est.id_esc
+ where est.edad > 25 and esc.turno like 'tarde'
+
+ 
+ CREATE FUNCTION retorna_nombre_materia()
+ RETURNS VARCHAR(30) AS
+ BEGIN
+ RETURN 'Base de Datos I'
+ END;
+
+ SELECT retorna_nombre_materia;
+ select dbo.retorna_nombre_materia() AS DBA;
+
+ alter function  retorna_nombre_materia_v2()
+  RETURNS VARCHAR(30) AS
+ BEGIN
+ declare @nombre VARCHAR (20);
+ SET @nombre = 'Base de Datos II'
+ return @nombre;
+ end;
+
+  select dbo.retorna_nombre_materia_v2() ;
+
+  CREATE FUNCTION retorna_nombre_materia_v3(@nombreMateria VARCHAR (25))
+  RETURNS VARCHAR(30) AS
+ BEGIN
+  declare @nombre VARCHAR (20);
+  SET  @nombre = @nombreMateria
+  RETURN @nombre;
+  end;
+
+  select dbo.retorna_nombre_materia_v3('DBA I') ;
+
+  CREATE FUNCTION suma_dos_numeros()
+  RETURNS INTEGER AS
+ BEGIN
+ DECLARE @num1 integer = 5;
+ DECLARE @num2 integer = 5;
+ DECLARE @resultado integer;
+ set @resultado = @num1 + @num2;
+ RETURN @resultado ()
+  end;
+
+  
+ CREATE FUNCTION suma_tres_numeros(@num1 integer ,@num2 integer, @num3 integer )
+ RETURNS INTEGER AS
+ BEGIN
+ DECLARE @resultado integer;
+ set  @resultado = @num1 + @num2+ @num3;
+ return @resultado;
+ end;
+ select dbo.suma_tres_numeros(8,8,8) ;
+
+create function Sumav6(@num1 integer,@num2 integer,@accion varchar(20))
+ returns integer as
+ begin
+	declare @sum integer;
+	if (@accion = 'SUMA')
+	set @sum = @num1 + @num2 
+	if (@accion = 'RESTA')
+	set @sum = @num1 - @num2 
+	return @sum
+ end;
+
+ select dbo.Sumav6(5,6,'SUMA') as Suma
+ select dbo.Sumav6(5,6,'RESTA') as Resta
