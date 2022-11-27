@@ -1,0 +1,145 @@
+create database defensa_hito4;
+use defensa_hito4
+
+create table campeonato(
+id_campeonato varchar(30),
+nombre_campeonato varchar(30),
+sede varchar(30),
+);
+create table equipo(
+id_equipo varchar (30),
+nombre_equipo varchar(30),
+categoria varchar (30),
+id_campeonato varchar(30),
+);
+
+create table jugador(
+id_jugador varchar (30),
+nombres varchar (30),
+apellidos varchar(30),
+CI varchar (30),
+edad integer ,
+id_equipo varchar(30),
+);
+
+insert into campeonato (id_campeonato,nombre_campeonato,sede)
+values('camp-111','Campeonato Unifranz','El Alto')
+insert into campeonato (id_campeonato,nombre_campeonato,sede)
+values('camp-222','Campeonato Unifranz','Cochabamba')
+
+
+insert into equipo (id_equipo,nombre_equipo,categoria,id_campeonato)
+values ('equ-111','Google','VARONES','camp-111')
+insert into equipo (id_equipo,nombre_equipo,categoria,id_campeonato)
+values ('equ-222','404 Not found','VARONES','camp-111')
+insert into equipo (id_equipo,nombre_equipo,categoria,id_campeonato)
+values ('equ-333','girls unifranz','MUJERES','camp-111')
+
+insert jugador (id_jugador,nombres,apellidos,ci,edad,id_equipo)
+values ('jug-111','Carlos','Villa','8997811LP',19,'equ-222')
+insert jugador (id_jugador,nombres,apellidos,ci,edad,id_equipo)
+values ('jug-222','Pedro','Salas','8997822LP',20,'equ-222')
+insert jugador (id_jugador,nombres,apellidos,ci,edad,id_equipo)
+values ('jug-333','Saul','Araj','8997833LP',21,'equ-222')
+insert jugador (id_jugador,nombres,apellidos,ci,edad,id_equipo)
+values ('jug-444','Sandra','Solis','8997844LP',20,'equ-333')
+insert jugador (id_jugador,nombres,apellidos,ci,edad,id_equipo)
+values ('jug-555','Ana','Mica','8997855LP',23,'equ-333')
+
+
+select *
+from campeonato;
+
+select *
+from equipo;
+
+select *
+from jugador;
+
+drop table campeonato;
+
+--mostrar todos los jugadores del genereo femenino que juegan en el camopeonato unifranz que sean de la sede de el alto 
+--jugador(nombre,apellido,genero 
+--cxampeonato(nombre,sede
+select ju.nombres,ju.apellidos,nombre_campeonato ,cam.sede ,eq.categoria
+from jugador as ju inner join equipo as eq on ju.id_equipo =eq.id_equipo inner join campeonato as cam on eq.id_campeonato = cam.id_campeonato
+where eq.categoria = 'MUJERES' AND cam.sede = 'EL ALTO' AND nombre_campeonato = 'Campeonato Unifranz'
+
+select count (ju.id_jugador) as Google
+from jugador as ju inner join equipo as eq on ju.id_equipo = eq.id_equipo
+where eq.nombre_equipo = 'Google' and eq.categoria = 'VARONES' and ju.apellidos like '%M'
+
+
+ALTER FUNCTION type_client (@credit_number INTEGER)
+
+RETURNS VARCHAR (30) AS 
+
+BEGIN
+
+DECLARE @response varchar (30);
+
+IF @credit_number  > 50000
+
+SET @response = 'PLATINIUM'
+
+IF @credit_number >= 10000 and @credit_number <= 50000
+
+SET @response = 'GOLD'
+
+IF  @credit_number < 10000
+
+SET @response = 'SILVER'
+
+return @response
+
+end;
+
+SELECT dbo.type_client (50001) AS PLATINIUM
+
+SELECT dbo.type_client (50000) AS GOLD
+
+SELECT dbo.type_client (10000) AS SILVER
+
+SELECT dbo.type_client (0) AS SILVER
+
+select count(ju.id_jugador)
+ from jugador as ju inner join equipo as equ on ju.id_equipo = equ.id_equipo 
+ inner join campeonato as camp on camp.id_campeonato = equ.id_campeonato
+ where ju.nombres like '%S' and ju.apellidos like '%M' and camp.sede = 'El Alto'
+
+ create function Jugadores(@sede varchar (20))
+ returns integer as
+ begin
+
+	declare @resp integer = 0;
+
+	select @resp = count(ju.id_jugador)
+	from jugador as ju inner join equipo as equ on ju.id_equipo = equ.id_equipo 
+	inner join campeonato as camp on camp.id_campeonato = equ.id_campeonato
+	where ju.nombres like '%S' and ju.apellidos like '%M' and camp.sede = @sede
+	
+ return @resp;
+ end;
+
+  select dbo.Jugadores('El Alto') as cantidad
+
+
+ select count(ju.id_jugador)
+ from jugador as ju inner join equipo as equ on ju.id_equipo = equ.id_equipo 
+ where equ.nombre_equipo = 'Google' and equ.categoria = 'MUJERES'
+
+
+ create function Jugadores2(@nom_equipo varchar (20), @categoria varchar(20))
+ returns integer as
+ begin
+
+	declare @resp integer = 0;
+
+	select @resp = count(ju.id_jugador)
+	from jugador as ju inner join equipo as equ on ju.id_equipo = equ.id_equipo 
+	where equ.nombre_equipo = @nom_equipo and equ.categoria = @categoria
+	
+ return @resp;
+ end;
+
+   select dbo.Jugadores2('Google','VARONES') as cantidad
