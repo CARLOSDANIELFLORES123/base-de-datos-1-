@@ -1,0 +1,100 @@
+CREATE FUNCTION operaciones(@num1 INTEGER,@num2 INTEGER ,@action VARCHAR (30))
+RETURNS INTEGER AS 
+BEGIN
+DECLARE @response INTEGER = 0;
+
+IF (@action = 'suma')
+BEGIN
+SET @response = @num1 + @num2;
+END;
+
+IF (@action = 'resta')
+BEGIN
+SET @response = @num1 - @num2;
+END;
+
+IF (@action = 'multiplicacion')
+BEGIN
+SET @response = @num1 * @num2;
+END;
+
+IF (@action = 'division')
+BEGIN
+SET @response = @num1 / @num2;
+END;
+
+RETURN @response;
+
+END;
+
+select dbo.operaciones(7,9 ,'suma') as suma
+select dbo.operaciones(5,8, 'resta') as resta
+select dbo.operaciones(3,4, 'multiplicacion') as multiplicacion
+select dbo.operaciones(4,9 ,'division') as division
+--funcion de agregacion
+use funcioneshito4
+--determinar cuantos estudiantes son mayores a 25 años.
+select est.*
+from estudiantes  as est;
+select count (*)
+from estudiantes as est
+where est.edad > 25;
+--crear un afuncion que permita saber la cantidad de estudiantes mayores a cierta edad.
+create function mayores_a_cierta_edad(@edad integer)
+returns integer as
+begin
+declare @response integer = 0;
+
+select  @response = count (est.id_est)
+from estudiantes as est
+where est.edad > @edad;
+
+return @response;
+end;
+
+select *
+from estudiantes as est
+where est.id_est = my_function();
+
+select dbo.mayores_a_cierta_edad(25);
+
+select esc.*
+from escuela  as esc;
+
+create function ANDRES_BELLO(@edad integer,@genero VARCHAR (29))
+returns integer as
+begin
+
+declare @response integer = 0;
+
+select @response = count (est.id_est) 
+from estudiantes as est inner join escuela as esc on est.id_esc = esc.id_esc  
+where est.genero > @genero and est.edad = @edad and esc.nombre = 'Andres Bello';
+
+return @response;
+end;
+
+select dbo.ANDRES_BELLO(29,'femenino');
+
+select *
+from estudiantes as est
+where est.id_est = 7
+
+select max (est.id_est)
+from estudiantes as est
+
+ CREATE FUNCTION MAXIMO() 
+ returns integer as
+begin
+
+declare @response integer = 0;
+SELECT @response = max (est.id_est)
+FROM estudiantes as est 
+return @response;
+end;
+
+
+SELECT est*
+FROM estudiantes as est 
+WHERE est.id_est = dbo.MAXIMO(); 
+
